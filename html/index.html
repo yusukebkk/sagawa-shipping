@@ -1,20 +1,26 @@
 <html>
     <head>
         <title>eelテスト</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" href="./style.css">
     </head>
     <body>
         <h1>佐川急便</h1>
         <form>
-            <label>CSVファイル</label><input id="fileName" type="resultArea.textContent"  required><br>
-            <button id="submit" type="button">実行する</button>
+            <label>CSVファイル</label><input id="fileName" type="text"  required><button id="selectPath" type="button" class="btn btn-primary">ファイル選択</button><br>
+            <button id="submit" type="button" class="btn btn-info">実行する</button>
         </form>
         <textarea class="log-area textarea" id="resultArea"></textarea>
 
         <script type="text/javascript" src="./eel.js"></script>
         <script>
+            selectPath.addEventListener('click', () => {
+                console.log("#1")
+                eel.get_path();
+                });
+
             submit.addEventListener('click', () => {
+                
                 console.log("aaa")
                 if(fileName !== ""){
                     eel.start(fileName.value);
@@ -22,13 +28,14 @@
                     alert("入力してください");
                 }
                 });
-            
-            
 
             eel.expose(view_log_js)
             function view_log_js(text){
                 resultArea.textContent = text+"\n"+resultArea.textContent;
-
+            }
+            eel.expose(update_path)
+            function update_path(text){
+                fileName.value = text;
             }
         </script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

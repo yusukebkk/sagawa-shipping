@@ -5,6 +5,7 @@ from selenium.webdriver import Chrome, ChromeOptions
 import time
 import pandas as pd
 from webdriver_manager.chrome import ChromeDriverManager
+import sys
 
 # Chromeを起動する関数
 
@@ -40,9 +41,18 @@ def add_log(message):
 def main(path):
     # driverを起動
     driver = set_driver(False)
-    df = pd.read_excel(path,dtype={1: str})
+    try:
+        df = pd.read_excel(path,dtype={1: str,2:str})
+        eel.view_log_js("ファイルの読み込みが完了しました")
+    except:
+        eel.view_log_js("ファイルの読み込みに失敗しました")
+        driver.quit()
+        return 1
+
+        
     #データの長さを取得
-    data_length = len(df.index)-1
+    data_length = len(df.index)
+    print(data_length)
     #10件ずつ分けたら何回取得が必要か
     get_data_times = (data_length-1)//10 +1
     #10件ずつ処理を行う
@@ -66,10 +76,14 @@ def main(path):
             count += 1
             eel.view_log_js(f"{i*10+count}件目が完了しました。")
             df.iat[i*10+count-1,2]=element.text
-    #ドライバーを閉じる
-    driver.quit()
+    
+    
     #エクセルへの出力
     df.to_excel(path,index=False)
+    eel.view_log_js("ファイルの出力が完了しました")
+    #ドライバーを閉じる
+    driver.quit()
+
 
         
             
@@ -78,16 +92,12 @@ def main(path):
 
  
 
-    
-    
-    
-    
+
 
     
     
  
-  
 
-# 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
+#直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
 if __name__ == "__main__":
     main()
