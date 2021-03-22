@@ -10,6 +10,7 @@ size=(700,600)
 @ eel.expose
 def start(path_to_excel):
     get_status.main(path_to_excel)
+    return 1
 
 @ eel.expose
 def get_path():

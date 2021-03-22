@@ -82,7 +82,7 @@ def main(path):
     df.to_excel(path,index=False)
     eel.view_log_js("ファイルの出力が完了しました")
     #ドライバーを閉じる
-    driver.quit()
+    driver.close()
 
 
         
